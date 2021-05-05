@@ -11,6 +11,8 @@
 
 Put down collateral, Borrow, and repay a loan from Aave! Use this to short assets and accrue interest. 
 
+[You can see a brownie version of this here. ](https://github.com/PatrickAlphaC/aave_brownie_py)
+
 In our `aave_borrow_web3.py` script, we do the following:
 
 1. Approve our `ETH` to be swapped for `WETH`
