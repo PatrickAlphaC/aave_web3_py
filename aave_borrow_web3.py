@@ -75,6 +75,10 @@ def borrow_erc20(w3, lending_pool, amount, erc20_address=None, nonce=None):
             "chainId": config["networks"][network]["chain_id"],
             "from": my_address,
             "nonce": nonce,
+            "maxFeePerGas":2000000000,
+            "maxPriorityFeePerGas":1000000000,
+            "gas":100000,
+
         }
     )
     signed_txn = w3.eth.account.sign_transaction(
@@ -146,6 +150,9 @@ def deposit_to_aave(w3, amount, lending_pool, nonce=None):
             "chainId": config["networks"][network]["chain_id"],
             "from": my_address,
             "nonce": nonce,
+            "maxFeePerGas":2000000000,
+            "maxPriorityFeePerGas":1000000000,
+            "gas":100000,
         }
     )
     signed_txn = w3.eth.account.sign_transaction(
@@ -195,6 +202,9 @@ def repay_all(w3, amount_to_repay, lending_pool, erc20_address=None, nonce=None)
             "chainId": config["networks"][network]["chain_id"],
             "from": my_address,
             "nonce": nonce + 1,
+            "maxFeePerGas":2000000000,
+            "maxPriorityFeePerGas":1000000000,
+            "gas":100000,
         }
     )
     print("Repaying...")
