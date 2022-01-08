@@ -9,6 +9,7 @@ from pyaml_env import parse_config
 import os
 import time
 from dotenv import load_dotenv
+from web3.gas_strategies.time_based import medium_gas_price_strategy
 
 load_dotenv()
 
@@ -19,6 +20,7 @@ my_address = Web3.toChecksumAddress(os.getenv("MY_ADDRESS"))
 
 def main():
     w3 = Web3(Web3.HTTPProvider(config["networks"][network]["rpc_url"]))
+    w3.eth.set_gas_price_strategy(medium_gas_price_strategy)
     amount = w3.toWei(0.1, "ether")
     lending_pool = get_lending_pool(w3)
     nonce_one = w3.eth.getTransactionCount(my_address)
@@ -75,10 +77,6 @@ def borrow_erc20(w3, lending_pool, amount, erc20_address=None, nonce=None):
             "chainId": config["networks"][network]["chain_id"],
             "from": my_address,
             "nonce": nonce,
-            "maxFeePerGas":2000000000,
-            "maxPriorityFeePerGas":1000000000,
-            "gas":100000,
-
         }
     )
     signed_txn = w3.eth.account.sign_transaction(
@@ -150,9 +148,6 @@ def deposit_to_aave(w3, amount, lending_pool, nonce=None):
             "chainId": config["networks"][network]["chain_id"],
             "from": my_address,
             "nonce": nonce,
-            "maxFeePerGas":2000000000,
-            "maxPriorityFeePerGas":1000000000,
-            "gas":100000,
         }
     )
     signed_txn = w3.eth.account.sign_transaction(
@@ -202,9 +197,6 @@ def repay_all(w3, amount_to_repay, lending_pool, erc20_address=None, nonce=None)
             "chainId": config["networks"][network]["chain_id"],
             "from": my_address,
             "nonce": nonce + 1,
-            "maxFeePerGas":2000000000,
-            "maxPriorityFeePerGas":1000000000,
-            "gas":100000,
         }
     )
     print("Repaying...")
