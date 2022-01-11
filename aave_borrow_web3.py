@@ -9,6 +9,7 @@ from pyaml_env import parse_config
 import os
 import time
 from dotenv import load_dotenv
+from web3.gas_strategies.time_based import medium_gas_price_strategy
 
 load_dotenv()
 
@@ -19,6 +20,7 @@ my_address = Web3.toChecksumAddress(os.getenv("MY_ADDRESS"))
 
 def main():
     w3 = Web3(Web3.HTTPProvider(config["networks"][network]["rpc_url"]))
+    w3.eth.set_gas_price_strategy(medium_gas_price_strategy)
     amount = w3.toWei(0.1, "ether")
     lending_pool = get_lending_pool(w3)
     nonce_one = w3.eth.getTransactionCount(my_address)
